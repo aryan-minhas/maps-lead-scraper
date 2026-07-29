@@ -18,8 +18,9 @@ import textwrap
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
-from auditor import audit_website  # pyrefly: ignore [missing-import]
-from scraper import fetch_places   # pyrefly: ignore [missing-import]
+from auditor import audit_website    # pyrefly: ignore [missing-import]
+from database import save_leads      # pyrefly: ignore [missing-import]
+from scraper import fetch_places     # pyrefly: ignore [missing-import]
 
 # ---------------------------------------------------------------------------
 # Logging configuration (no-op if already initialised by scraper / auditor)
@@ -162,7 +163,13 @@ def main() -> None:
         status = audit_website(website_url)
         results.append((biz, status))
 
-    # ── Step 3: Print formatted table ──────────────────────────────────
+    # ── Step 3: Persist results to Supabase ────────────────────────────
+    saved_count = save_leads(results)
+    logger.info(
+        "Database: %d record(s) saved/updated in Supabase.", saved_count
+    )
+
+    # ── Step 4: Print formatted table ──────────────────────────────────
     _print_table(results)
 
     logger.info("Pipeline complete.")

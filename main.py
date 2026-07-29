@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv  # pyrefly: ignore [missing-import]
 
 # Load environment variables from .env
 load_dotenv()

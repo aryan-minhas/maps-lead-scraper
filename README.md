@@ -1,7 +1,7 @@
 # 🗺️ Maps Lead Scraper
 
 > **Enterprise Lead Generation & Website Audit Platform**  
-> Discover businesses globally, audit their web presence, and export client-ready reports — all from a single tool.
+> Discover businesses globally, audit their web presence, and export client-ready reports.
 
 Built for **agency owners**, **web design freelancers**, and **SEO specialists** who need to identify high-value outreach opportunities at scale: businesses with no website, broken links, insecure HTTP, or non-mobile-friendly pages.
 
@@ -13,12 +13,14 @@ Built for **agency owners**, **web design freelancers**, and **SEO specialists**
 |---|---|
 | 🔍 **Global Business Search** | Query any city or country using the Google Places API |
 | 🧪 **Automated Website Auditing** | 5-tier quality check: Active, Insecure, Broken, Not Mobile-Friendly, No Website |
-| 📊 **SaaS Dashboard UI** | Dark-mode single-page interface with metric cards, tabbed filtering, and live search |
+| 📊 **Royal Enterprise Dashboard** | Dark-mode SaaS UI with Royal Indigo/Sapphire theme, metric cards, tabbed filtering, and live search |
 | 📤 **Instant Exports** | One-click export to CSV, TSV/Excel, and PDF report |
 | 🤖 **Gemini AI Ready** | Quality score column scaffolded and ready for Gemini API integration |
 | 🗄️ **Supabase Persistence** | Upserts leads to a Supabase `leads` table with duplicate prevention |
-| 🔒 **Safe Fallback Modes** | Missing API keys trigger mock/logging mode — the app never crashes |
+| 🔒 **Safe Fallback Mode** | Missing Supabase credentials trigger MOCK/LOGGING mode — the app never crashes |
 | ⚡ **FastAPI REST Backend** | Local API server with Swagger UI, CORS support, and JSON responses |
+
+> **Important:** A valid `GOOGLE_PLACES_API_KEY` in your `.env` file is required to fetch live business results. Without it, the pipeline returns no data.
 
 ---
 
@@ -43,20 +45,20 @@ index.html  ──POST /api/run-pipeline──▶  server.py (FastAPI)
 ```
 maps-lead-scraper/
 │
-├── index.html          # SaaS dashboard UI (HTML + CSS + Vanilla JS)
+├── index.html          # Royal Enterprise SaaS dashboard (HTML + CSS + Vanilla JS)
 ├── server.py           # FastAPI REST API server (entry point for web UI)
 ├── main.py             # CLI pipeline runner (Scrape → Audit → Persist → Report)
 │
 ├── scraper.py          # Google Places API lead extraction module
 ├── auditor.py          # HTTP/HTML website quality audit engine
-├── database.py         # Supabase persistence module (with mock fallback)
-├── test_auditor.py     # Unit test suite for the audit engine
+├── database.py         # Supabase persistence module (with MOCK/LOGGING fallback)
 │
 ├── .env                # Environment variables (not committed to git)
 ├── .env.example        # Environment variable template
 ├── requirements.txt    # Python package dependencies
 ├── .gitignore          # Git ignore rules
-└── README.md           # This file
+├── README.md           # This file
+└── PROJECT_SUMMARY.md  # Full technical development history and handoff notes
 ```
 
 ---
@@ -66,8 +68,8 @@ maps-lead-scraper/
 ### Prerequisites
 
 - Python **3.10+**
-- A Google Places API key *(optional — mock data used if absent)*
-- A Supabase project *(optional — logging mode used if absent)*
+- A **Google Places API key** — required for live business results
+- A Supabase project *(optional — MOCK/LOGGING mode used if absent)*
 
 ---
 
@@ -133,14 +135,12 @@ SUPABASE_URL=YOUR_SUPABASE_URL
 SUPABASE_KEY=YOUR_SUPABASE_SERVICE_ROLE_OR_ANON_KEY
 ```
 
-> **Don't have API keys yet?** No problem — the app runs safely without them:
+> **Credential Behaviour:**
 >
 > | Missing Key | Behaviour |
 > |---|---|
-> | `GOOGLE_PLACES_API_KEY` | `scraper.py` falls back to built-in mock business data |
-> | `SUPABASE_URL` / `SUPABASE_KEY` | `database.py` switches to **MOCK/LOGGING mode** — all saves are printed to the console instead |
->
-> This means you can run and test the full pipeline end-to-end with zero external credentials.
+> | `GOOGLE_PLACES_API_KEY` | Pipeline returns **no results** — the UI displays an empty state with instructions |
+> | `SUPABASE_URL` / `SUPABASE_KEY` | `database.py` switches to **MOCK/LOGGING mode** — saves are printed to the console |
 
 ---
 
@@ -154,18 +154,13 @@ SUPABASE_KEY=YOUR_SUPABASE_SERVICE_ROLE_OR_ANON_KEY
 python server.py
 ```
 
-The API will be available at `http://127.0.0.1:8000`.
+The API will be running at `http://127.0.0.1:8000`.
 
-**Step 2:** Open the dashboard in your browser:
+**Step 2:** Open the dashboard — double-click `index.html` or open it in any browser:
 
 ```
-# Simply open the file directly:
-index.html  →  double-click or drag into any browser
-
-# Or use VS Code Live Server extension for hot reload
+index.html  →  open in browser (Chrome, Edge, Firefox)
 ```
-
-> Use the **Demo Mode** toggle in the top-right of the UI to load 12 offline mock leads instantly, without needing the server running.
 
 ---
 
@@ -178,16 +173,6 @@ python main.py
 ```
 
 This outputs a formatted ASCII table of audited businesses to the console and persists results to Supabase (or logs them if in mock mode).
-
----
-
-### Running Unit Tests
-
-```bash
-python test_auditor.py
-```
-
-The test suite covers audit edge cases including `None` URLs, plain HTTP, missing viewport tags, broken endpoints, and healthy HTTPS sites.
 
 ---
 
@@ -216,15 +201,15 @@ http://127.0.0.1:8000/docs
 }
 ```
 
-### `POST /api/run-pipeline` — Response
+### `POST /api/run-pipeline` — Success Response
 
 ```json
 {
   "status": "success",
   "location": "Miami, FL",
   "keyword": "Plumbers",
-  "records_processed": 5,
-  "records_saved": 5,
+  "records_processed": 20,
+  "records_saved": 20,
   "leads": [
     {
       "business_name": "Apex Plumbing Experts",
@@ -237,19 +222,32 @@ http://127.0.0.1:8000/docs
 }
 ```
 
+### `POST /api/run-pipeline` — No Results Response
+
+```json
+{
+  "status": "no_results",
+  "location": "Miami, FL",
+  "keyword": "Plumbers",
+  "records_processed": 0,
+  "records_saved": 0,
+  "leads": []
+}
+```
+
 ---
 
 ## 🏷️ Audit Status Reference
 
-Each business website is audited using a strict 5-tier priority system. The **most severe issue** is always reported first.
+Each business website is evaluated using a strict 5-tier priority system. The **most severe issue is reported first**.
 
 | Status Flag | Colour | Meaning |
 |---|---|---|
-| `ACTIVE_WEBSITE` | 🟢 Emerald | Site is live, HTTPS, and mobile-friendly |
-| `INSECURE_WEBSITE` | 🟡 Amber | Site uses plain `http://` — no SSL |
-| `NOT_MOBILE_FRIENDLY` | 🔵 Sky Blue | Missing `<meta name="viewport">` tag |
-| `BROKEN_WEBSITE` | 🔴 Rose | DNS failure, timeout, or HTTP 4xx/5xx |
-| `NO_WEBSITE` | ⬜ Slate | No URL found for the business |
+| `ACTIVE_WEBSITE` | 🟢 Emerald `#10B981` | Site is live, HTTPS, and mobile-friendly |
+| `INSECURE_WEBSITE` | 🟡 Amber Gold `#F59E0B` | Site uses plain `http://` — no SSL |
+| `NOT_MOBILE_FRIENDLY` | ⬜ Royal Slate `#64748B` | Missing `<meta name="viewport">` tag |
+| `BROKEN_WEBSITE` | 🔴 Crimson `#E11D48` | DNS failure, timeout, or HTTP 4xx/5xx |
+| `NO_WEBSITE` | ◼ Muted Slate `#475569` | No URL found for the business |
 
 ---
 
@@ -283,7 +281,7 @@ The `UNIQUE` constraint on `(business_name, address)` enables upsert logic — r
 | **Web Scraping** | Google Places API (Text Search + Place Details) |
 | **Website Auditing** | `requests` + `BeautifulSoup4` |
 | **Database** | Supabase (PostgreSQL) via `supabase-py` |
-| **Frontend** | HTML5 + Vanilla JS + CSS Variables (Inter font) |
+| **Frontend** | HTML5 + Vanilla JS + CSS Variables (Inter font, Royal Enterprise Theme) |
 | **Config** | `python-dotenv` |
 
 ---

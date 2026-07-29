@@ -4,45 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maps Lead Scraper — Lead Generation &amp; Website Audit Platform</title>
-  <meta name="description" content="Enterprise Lead Generation &amp; Website Audit Platform for agency owners, freelancers, and SEO specialists. Discover businesses globally and identify high-value website opportunities." />
+  <meta name="description" content="Enterprise Lead Generation &amp; Website Audit Platform. Discover businesses globally and identify high-value website opportunities." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
-    /* =====================================================================
-       DESIGN TOKENS & RESET
-    ====================================================================== */
+    /* ============================================================
+       ROYAL ENTERPRISE DESIGN TOKENS
+    ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg-base:        #080C14;
-      --bg-surface:     #0D1421;
-      --bg-card:        #111827;
-      --bg-card-hover:  #1A2336;
-      --bg-input:       #141C2B;
-      --border:         rgba(255,255,255,0.06);
-      --border-strong:  rgba(255,255,255,0.12);
-      --text-primary:   #F0F6FF;
-      --text-secondary: #8B9CC5;
-      --text-muted:     #4B5B7A;
+      /* Backgrounds */
+      --bg-base:       #070A0F;
+      --bg-surface:    #0B0F19;
+      --bg-card:       #111827;
+      --bg-card-hover: #16202F;
+      --bg-input:      #0F1623;
 
-      --emerald:   #10B981;
-      --amber:     #F59E0B;
-      --sky:       #0284C7;
-      --rose:      #EF4444;
-      --slate:     #64748B;
-      --violet:    #8B5CF6;
-      --accent:    #6366F1;
-      --accent-glow: rgba(99,102,241,0.2);
+      /* Borders */
+      --border:        rgba(255,255,255,0.06);
+      --border-strong: rgba(255,255,255,0.11);
 
+      /* Text */
+      --text-primary:   #EFF6FF;
+      --text-secondary: #94A3B8;
+      --text-muted:     #475569;
+
+      /* Royal accent palette */
+      --indigo:        #4F46E5;
+      --indigo-light:  #6366F1;
+      --sapphire:      #3B82F6;
+      --gold:          #D97706;
+      --gold-light:    #F59E0B;
+      --indigo-glow:   rgba(79,70,229,0.18);
+      --gold-glow:     rgba(217,119,6,0.15);
+
+      /* Status colours */
+      --emerald:  #10B981;
+      --amber:    #F59E0B;
+      --crimson:  #E11D48;
+      --slate-s:  #64748B;
+      --muted-s:  #475569;
+
+      /* Geometry */
       --radius-sm: 6px;
       --radius-md: 10px;
       --radius-lg: 14px;
       --radius-xl: 18px;
 
-      --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.3);
-      --transition:  all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.5), 0 6px 24px rgba(0,0,0,0.35);
+      --transition:  all 0.2s cubic-bezier(0.4,0,0.2,1);
     }
 
     html { scroll-behavior: smooth; }
@@ -52,113 +65,104 @@
       background: var(--bg-base);
       color: var(--text-primary);
       min-height: 100vh;
-      line-height: 1.5;
+      line-height: 1.55;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Animated background ─────────────────────────────────────────── */
+    /* ── Ambient glow background ────────────────────────────── */
     .bg-glow {
       position: fixed; inset: 0;
       pointer-events: none; z-index: 0; overflow: hidden;
     }
     .bg-glow::before {
       content: ''; position: absolute;
-      width: 800px; height: 800px; top: -200px; left: -200px;
-      background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
-      animation: driftA 18s ease-in-out infinite alternate;
+      width: 900px; height: 900px; top: -280px; left: -200px;
+      background: radial-gradient(circle, rgba(79,70,229,0.07) 0%, transparent 68%);
+      animation: driftA 20s ease-in-out infinite alternate;
     }
     .bg-glow::after {
       content: ''; position: absolute;
-      width: 600px; height: 600px; bottom: -100px; right: -100px;
-      background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 70%);
-      animation: driftB 22s ease-in-out infinite alternate;
+      width: 600px; height: 600px; bottom: -80px; right: -80px;
+      background: radial-gradient(circle, rgba(217,119,6,0.06) 0%, transparent 68%);
+      animation: driftB 26s ease-in-out infinite alternate;
     }
-    @keyframes driftA { from { transform:translate(0,0) scale(1); } to { transform:translate(80px,60px) scale(1.15); } }
-    @keyframes driftB { from { transform:translate(0,0) scale(1); } to { transform:translate(-60px,-40px) scale(1.1); } }
+    @keyframes driftA { from{transform:translate(0,0) scale(1);} to{transform:translate(70px,55px) scale(1.12);} }
+    @keyframes driftB { from{transform:translate(0,0) scale(1);} to{transform:translate(-55px,-40px) scale(1.08);} }
 
-    /* ── Layout ─────────────────────────────────────────────────────── */
-    .app-container {
+    /* ── App wrapper ─────────────────────────────────────────── */
+    .app {
       position: relative; z-index: 1;
       max-width: 1440px; margin: 0 auto;
-      padding: 0 24px 80px;
+      padding: 0 28px 100px;
     }
 
-    /* ── Topbar ─────────────────────────────────────────────────────── */
+    /* ============================================================
+       TOPBAR
+    ============================================================ */
     .topbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 32px;
+      padding: 22px 0; border-bottom: 1px solid var(--border);
+      margin-bottom: 36px;
     }
-    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 14px; }
     .brand-icon {
-      width: 38px; height: 38px;
-      background: linear-gradient(135deg, var(--accent), var(--violet));
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--indigo), var(--sapphire));
       border-radius: var(--radius-md);
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; box-shadow: 0 0 20px rgba(99,102,241,0.4);
+      font-size: 19px;
+      box-shadow: 0 0 22px rgba(79,70,229,0.45);
     }
-    .brand-name  { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
-    .brand-tag   { font-size: 11px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
-    .topbar-right { display: flex; align-items: center; gap: 12px; }
-
-    .mock-toggle-wrap {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 6px 12px;
-      cursor: pointer; transition: var(--transition);
+    .brand-name {
+      font-size: 17px; font-weight: 800; letter-spacing: -0.4px;
+      color: var(--text-primary);
     }
-    .mock-toggle-wrap:hover { border-color: var(--border-strong); }
-    .mock-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
-
-    .toggle-sw {
-      width: 32px; height: 18px;
-      background: var(--bg-input); border-radius: 9px;
-      position: relative; transition: var(--transition);
-      border: 1px solid var(--border-strong); cursor: pointer;
+    .brand-tag {
+      font-size: 11px; color: var(--text-muted); font-weight: 500;
+      letter-spacing: 0.6px; text-transform: uppercase; margin-top: 1px;
     }
-    .toggle-sw.on { background: var(--accent); border-color: var(--accent); }
-    .toggle-sw::after {
-      content: ''; position: absolute;
-      width: 12px; height: 12px; background: white;
-      border-radius: 50%; top: 2px; left: 2px;
-      transition: var(--transition); box-shadow: 0 1px 4px rgba(0,0,0,0.4);
-    }
-    .toggle-sw.on::after { left: 16px; }
-
     .api-pill {
-      display: flex; align-items: center; gap: 6px;
-      padding: 6px 12px;
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+      display: flex; align-items: center; gap: 7px;
+      padding: 7px 14px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px;
     }
     .status-dot {
       width: 7px; height: 7px; border-radius: 50%;
-      background: var(--slate); transition: var(--transition);
+      background: var(--text-muted); transition: var(--transition);
     }
-    .status-dot.online { background: var(--emerald); box-shadow: 0 0 6px var(--emerald); }
+    .status-dot.online { background: var(--emerald); box-shadow: 0 0 7px var(--emerald); }
+    .status-dot.error  { background: var(--crimson);  box-shadow: 0 0 7px var(--crimson); }
     .status-text { font-size: 11px; color: var(--text-muted); font-weight: 500; }
 
-    /* ── Search Control Bar ─────────────────────────────────────────── */
+    /* ============================================================
+       SEARCH CONTROL BAR
+    ============================================================ */
     .control-bar {
       background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius-xl); padding: 24px 28px;
+      border-radius: var(--radius-xl); padding: 26px 30px;
       margin-bottom: 28px; box-shadow: var(--shadow-card);
       position: relative; overflow: hidden;
     }
     .control-bar::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), transparent);
+      background: linear-gradient(90deg, transparent, rgba(79,70,229,0.55), rgba(217,119,6,0.3), transparent);
     }
-    .control-bar-title {
-      font-size: 13px; font-weight: 600; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 18px;
+    .control-label {
+      font-size: 11px; font-weight: 700; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 20px;
     }
     .control-grid {
       display: grid; grid-template-columns: 1fr 1fr auto;
       gap: 16px; align-items: end;
     }
-    @media (max-width: 768px) { .control-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 800px) { .control-grid { grid-template-columns: 1fr; } }
 
-    .field-group   { display: flex; flex-direction: column; gap: 6px; }
-    .field-label   { font-size: 12px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.3px; }
+    .field-group { display: flex; flex-direction: column; gap: 7px; }
+    .field-label {
+      font-size: 12px; font-weight: 600;
+      color: var(--text-secondary); letter-spacing: 0.2px;
+    }
     .field-input {
       background: var(--bg-input); border: 1px solid var(--border-strong);
       border-radius: var(--radius-md); padding: 11px 14px;
@@ -166,204 +170,241 @@
       font-size: 14px; outline: none; transition: var(--transition); width: 100%;
     }
     .field-input::placeholder { color: var(--text-muted); }
-    .field-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-
-    .chips-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-    .chip {
-      padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
-      border: 1px solid var(--border-strong); background: var(--bg-input);
-      color: var(--text-secondary); cursor: pointer; transition: var(--transition); user-select: none;
+    .field-input:focus {
+      border-color: var(--indigo-light);
+      box-shadow: 0 0 0 3px var(--indigo-glow);
     }
-    .chip:hover { border-color: var(--accent); color: var(--text-primary); }
-    .chip.active { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
-    .chip-all { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); color: var(--violet); }
-    .chip-all.active { background: rgba(139,92,246,0.2); border-color: var(--violet); }
+
+    .chips-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .chip {
+      padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 500;
+      border: 1px solid var(--border-strong); background: var(--bg-input);
+      color: var(--text-secondary); cursor: pointer;
+      transition: var(--transition); user-select: none;
+    }
+    .chip:hover { border-color: var(--indigo-light); color: var(--text-primary); }
+    .chip.active {
+      background: var(--indigo-glow); border-color: var(--indigo-light);
+      color: var(--indigo-light);
+    }
+    .chip-all {
+      background: var(--gold-glow); border-color: rgba(217,119,6,0.35);
+      color: var(--gold-light);
+    }
+    .chip-all.active { background: rgba(217,119,6,0.22); border-color: var(--gold-light); }
 
     .btn-search {
-      display: flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, var(--accent), var(--violet));
+      display: flex; align-items: center; gap: 9px;
+      background: linear-gradient(135deg, var(--indigo), var(--sapphire));
       color: #fff; border: none; border-radius: var(--radius-md);
-      padding: 12px 24px; font-size: 14px; font-weight: 600;
+      padding: 12px 26px; font-size: 14px; font-weight: 700;
       font-family: inherit; cursor: pointer; transition: var(--transition);
-      white-space: nowrap; box-shadow: 0 4px 15px rgba(99,102,241,0.3);
+      white-space: nowrap;
+      box-shadow: 0 4px 18px rgba(79,70,229,0.35);
       position: relative; overflow: hidden;
     }
-    .btn-search::before {
+    .btn-search::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
       opacity: 0; transition: var(--transition);
     }
-    .btn-search:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99,102,241,0.45); }
-    .btn-search:hover::before { opacity: 1; }
+    .btn-search:hover { transform: translateY(-1px); box-shadow: 0 7px 24px rgba(79,70,229,0.5); }
+    .btn-search:hover::after { opacity: 1; }
     .btn-search:active { transform: translateY(0); }
-    .btn-search:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-search:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
     .spinner {
       width: 16px; height: 16px;
       border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
-      border-radius: 50%; animation: spin 0.7s linear infinite; display: none;
+      border-radius: 50%; animation: spin 0.75s linear infinite; display: none;
     }
-    .btn-search.loading .spinner { display: block; }
+    .btn-search.loading .spinner  { display: block; }
     .btn-search.loading .btn-icon { display: none; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Metric Cards ────────────────────────────────────────────────── */
+    /* ============================================================
+       METRIC CARDS
+    ============================================================ */
     .metrics-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
+      display: grid; grid-template-columns: repeat(4,1fr);
       gap: 16px; margin-bottom: 28px;
     }
-    @media (max-width: 900px) { .metrics-grid { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 480px) { .metrics-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 960px)  { .metrics-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 480px)  { .metrics-grid { grid-template-columns: 1fr; } }
 
     .metric-card {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: var(--radius-lg); padding: 22px 22px 18px;
       position: relative; overflow: hidden; transition: var(--transition);
     }
-    .metric-card:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-card); }
-    .metric-card::after {
-      content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 2px; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    .metric-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px); box-shadow: var(--shadow-card);
     }
-    .metric-card.total::after    { background: linear-gradient(90deg, var(--accent), var(--violet)); }
-    .metric-card.high-opp::after { background: linear-gradient(90deg, var(--rose), #FF6B6B); }
-    .metric-card.sub-opt::after  { background: linear-gradient(90deg, var(--amber), #FCD34D); }
-    .metric-card.ai-score::after { background: linear-gradient(90deg, var(--emerald), #34D399); }
+    .metric-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .metric-card.m-total::after   { background: linear-gradient(90deg, var(--indigo), var(--sapphire)); }
+    .metric-card.m-highopp::after { background: linear-gradient(90deg, var(--crimson), #FB7185); }
+    .metric-card.m-subopt::after  { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+    .metric-card.m-ai::after      { background: linear-gradient(90deg, var(--emerald), #34D399); }
 
     .metric-icon {
       width: 36px; height: 36px; border-radius: var(--radius-sm);
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; margin-bottom: 14px;
     }
-    .metric-card.total    .metric-icon { background: rgba(99,102,241,0.15); }
-    .metric-card.high-opp .metric-icon { background: rgba(239,68,68,0.15); }
-    .metric-card.sub-opt  .metric-icon { background: rgba(245,158,11,0.15); }
-    .metric-card.ai-score .metric-icon { background: rgba(16,185,129,0.15); }
+    .m-total   .metric-icon { background: rgba(79,70,229,0.14); }
+    .m-highopp .metric-icon { background: rgba(225,29,72,0.13); }
+    .m-subopt  .metric-icon { background: rgba(217,119,6,0.13); }
+    .m-ai      .metric-icon { background: rgba(16,185,129,0.13); }
 
     .metric-label {
-      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.7px; color: var(--text-muted); margin-bottom: 6px;
     }
     .metric-value {
-      font-size: 34px; font-weight: 800; letter-spacing: -1px;
+      font-size: 36px; font-weight: 800; letter-spacing: -1.5px;
       line-height: 1; color: var(--text-primary);
     }
-    .metric-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+    .metric-sub { font-size: 12px; color: var(--text-muted); margin-top: 7px; }
     .metric-badge {
       display: inline-flex; align-items: center; gap: 4px;
-      background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2);
+      background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.22);
       color: var(--emerald); font-size: 11px; font-weight: 600;
-      padding: 2px 8px; border-radius: 20px; margin-top: 8px;
+      padding: 2px 9px; border-radius: 20px; margin-top: 9px;
     }
 
-    /* ── Table Section ──────────────────────────────────────────────── */
+    /* ============================================================
+       TABLE SECTION
+    ============================================================ */
     .table-section {
       background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-card);
+      border-radius: var(--radius-xl); overflow: hidden;
+      box-shadow: var(--shadow-card);
     }
     .table-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 24px; border-bottom: 1px solid var(--border);
+      padding: 20px 26px; border-bottom: 1px solid var(--border);
       flex-wrap: wrap; gap: 12px;
     }
     .table-title    { font-size: 15px; font-weight: 700; }
     .table-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 
     .tabs-row {
-      display: flex; gap: 4px; padding: 12px 24px;
-      border-bottom: 1px solid var(--border); background: var(--bg-surface);
-      overflow-x: auto;
+      display: flex; gap: 4px; padding: 12px 26px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-surface); overflow-x: auto;
     }
     .tab-btn {
       padding: 7px 16px; border-radius: var(--radius-sm);
       font-size: 13px; font-weight: 500; border: 1px solid transparent;
-      background: transparent; color: var(--text-secondary); cursor: pointer;
-      transition: var(--transition); white-space: nowrap; font-family: inherit;
+      background: transparent; color: var(--text-secondary);
+      cursor: pointer; transition: var(--transition);
+      white-space: nowrap; font-family: inherit;
       display: flex; align-items: center; gap: 7px;
     }
-    .tab-btn .tab-count {
-      background: var(--bg-card); border-radius: 10px; padding: 1px 7px;
-      font-size: 11px; font-weight: 600; color: var(--text-muted);
+    .tab-count {
+      background: var(--bg-card); border-radius: 10px;
+      padding: 1px 7px; font-size: 11px; font-weight: 600;
+      color: var(--text-muted);
     }
     .tab-btn:hover { color: var(--text-primary); background: var(--bg-card-hover); }
-    .tab-btn.active { background: var(--accent-glow); border-color: rgba(99,102,241,0.3); color: var(--accent); }
-    .tab-btn.active .tab-count { background: rgba(99,102,241,0.2); color: var(--accent); }
+    .tab-btn.active {
+      background: var(--indigo-glow); border-color: rgba(79,70,229,0.3);
+      color: var(--indigo-light);
+    }
+    .tab-btn.active .tab-count {
+      background: rgba(79,70,229,0.18); color: var(--indigo-light);
+    }
 
     .table-toolbar {
       display: flex; align-items: center; gap: 10px;
-      padding: 12px 24px; border-bottom: 1px solid var(--border);
+      padding: 12px 26px; border-bottom: 1px solid var(--border);
     }
     .table-search {
       flex: 1; background: var(--bg-input); border: 1px solid var(--border);
       border-radius: var(--radius-sm); padding: 8px 12px 8px 36px;
       color: var(--text-primary); font-size: 13px; font-family: inherit;
       outline: none; transition: var(--transition);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234B5B7A' stroke-width='2'%3E%3Cpath d='M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569' stroke-width='2'%3E%3Cpath d='M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: 10px center; background-size: 16px;
     }
-    .table-search:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
+    .table-search:focus {
+      border-color: var(--indigo-light);
+      box-shadow: 0 0 0 2px var(--indigo-glow);
+    }
     .table-search::placeholder { color: var(--text-muted); }
 
-    /* ── Data Table ─────────────────────────────────────────────────── */
+    /* ── Data Table ──────────────────────────────────────────── */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     thead th {
       padding: 12px 16px; text-align: left;
-      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.6px; color: var(--text-muted);
       border-bottom: 1px solid var(--border); background: var(--bg-surface);
-      white-space: nowrap; cursor: pointer; user-select: none; transition: var(--transition);
+      white-space: nowrap; cursor: pointer; user-select: none;
+      transition: var(--transition);
     }
     thead th:hover { color: var(--text-secondary); }
-    thead th.sorted-asc  span.sort-icon::after { content: ' ↑'; color: var(--accent); }
-    thead th.sorted-desc span.sort-icon::after { content: ' ↓'; color: var(--accent); }
+    thead th.sorted-asc  .sort-icon::after { content: ' ↑'; color: var(--indigo-light); }
+    thead th.sorted-desc .sort-icon::after { content: ' ↓'; color: var(--indigo-light); }
+
     tbody tr { border-bottom: 1px solid var(--border); transition: var(--transition); }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: var(--bg-card-hover); }
     tbody td { padding: 13px 16px; vertical-align: middle; }
 
-    .td-index   { color: var(--text-muted); font-weight: 500; width: 40px; }
-    .td-name    { font-weight: 600; color: var(--text-primary); }
+    .td-index   { color: var(--text-muted); font-weight: 500; width: 44px; }
+    .td-name    { font-weight: 600; color: var(--text-primary); min-width: 160px; }
     .td-phone   { color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .td-address { color: var(--text-secondary); max-width: 200px; }
-    .td-address span { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+    .td-address { color: var(--text-secondary); max-width: 210px; }
+    .td-address span {
+      display: -webkit-box; -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
     .td-website a {
-      color: var(--accent); text-decoration: none; font-size: 12px;
-      display: flex; align-items: center; gap: 4px;
+      color: var(--sapphire); text-decoration: none; font-size: 12px;
+      display: flex; align-items: center; gap: 5px;
       max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
       transition: var(--transition);
     }
-    .td-website a:hover { text-decoration: underline; opacity: 0.85; }
+    .td-website a:hover { text-decoration: underline; color: var(--indigo-light); }
     .no-site { color: var(--text-muted); font-size: 12px; }
-    .score-wrap { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 12px; }
+    .score-wrap { display: flex; align-items: center; gap: 7px; color: var(--text-muted); font-size: 12px; }
     .ai-pending {
       font-size: 10px; padding: 2px 8px; border-radius: 10px;
-      background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);
-      color: var(--violet); font-weight: 600;
+      background: var(--gold-glow); border: 1px solid rgba(217,119,6,0.3);
+      color: var(--gold-light); font-weight: 600;
     }
 
-    /* ── Status Badges ──────────────────────────────────────────────── */
+    /* ── Status Badges ───────────────────────────────────────── */
     .badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 4px 10px; border-radius: 20px;
-      font-size: 11px; font-weight: 600; letter-spacing: 0.2px; white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 11px; border-radius: 20px;
+      font-size: 11px; font-weight: 600; white-space: nowrap;
     }
-    .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    .badge-active   { background: rgba(16,185,129,0.12); color: #10B981; border: 1px solid rgba(16,185,129,0.25); }
-    .badge-active::before   { background: #10B981; box-shadow: 0 0 4px #10B981; }
-    .badge-insecure { background: rgba(245,158,11,0.12); color: #F59E0B; border: 1px solid rgba(245,158,11,0.25); }
+    .badge::before {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%; flex-shrink: 0;
+    }
+    .badge-active   { background: rgba(16,185,129,0.11); color: #10B981; border: 1px solid rgba(16,185,129,0.24); }
+    .badge-active::before   { background: #10B981; box-shadow: 0 0 5px #10B981; }
+    .badge-insecure { background: rgba(245,158,11,0.11); color: #F59E0B; border: 1px solid rgba(245,158,11,0.24); }
     .badge-insecure::before { background: #F59E0B; }
-    .badge-mobile   { background: rgba(2,132,199,0.12); color: #38BDF8; border: 1px solid rgba(2,132,199,0.25); }
-    .badge-mobile::before   { background: #0284C7; }
-    .badge-broken   { background: rgba(239,68,68,0.12); color: #EF4444; border: 1px solid rgba(239,68,68,0.25); }
-    .badge-broken::before   { background: #EF4444; box-shadow: 0 0 4px rgba(239,68,68,0.5); }
-    .badge-nosite   { background: rgba(100,116,139,0.12); color: #94A3B8; border: 1px solid rgba(100,116,139,0.25); }
-    .badge-nosite::before   { background: #64748B; }
+    .badge-mobile   { background: rgba(100,116,139,0.12); color: #94A3B8; border: 1px solid rgba(100,116,139,0.24); }
+    .badge-mobile::before   { background: #64748B; }
+    .badge-broken   { background: rgba(225,29,72,0.11); color: #E11D48; border: 1px solid rgba(225,29,72,0.24); }
+    .badge-broken::before   { background: #E11D48; box-shadow: 0 0 5px rgba(225,29,72,0.5); }
+    .badge-nosite   { background: rgba(71,85,105,0.12); color: #94A3B8; border: 1px solid rgba(71,85,105,0.24); }
+    .badge-nosite::before   { background: #475569; }
 
-    /* ── Empty / Loading States ─────────────────────────────────────── */
-    .empty-state { text-align: center; padding: 72px 40px; }
-    .empty-icon     { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+    /* ── Empty & Loading States ──────────────────────────────── */
+    .empty-state { text-align: center; padding: 80px 40px; }
+    .empty-icon     { font-size: 46px; margin-bottom: 16px; opacity: 0.35; }
     .empty-title    { font-size: 16px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
-    .empty-subtitle { font-size: 13px; color: var(--text-muted); }
+    .empty-subtitle { font-size: 13px; color: var(--text-muted); max-width: 440px; margin: 0 auto; line-height: 1.6; }
 
     .loading-overlay {
       display: none; flex-direction: column; align-items: center;
@@ -372,21 +413,21 @@
     .loading-overlay.visible { display: flex; }
     .loader-ring {
       width: 44px; height: 44px;
-      border: 3px solid var(--border); border-top-color: var(--accent);
-      border-radius: 50%; animation: spin 0.8s linear infinite;
+      border: 3px solid var(--border); border-top-color: var(--indigo-light);
+      border-radius: 50%; animation: spin 0.85s linear infinite;
     }
-    .loading-text { font-size: 14px; color: var(--text-secondary); }
+    .loading-text { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
     .loading-sub  { font-size: 12px; color: var(--text-muted); }
 
-    /* ── Export Bar ─────────────────────────────────────────────────── */
+    /* ── Export Bar ──────────────────────────────────────────── */
     .export-bar {
       display: flex; align-items: center; gap: 10px;
-      padding: 16px 24px; border-top: 1px solid var(--border);
+      padding: 16px 26px; border-top: 1px solid var(--border);
       background: var(--bg-surface); flex-wrap: wrap;
     }
     .export-label {
-      font-size: 12px; font-weight: 600; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px;
+      font-size: 11px; font-weight: 700; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.6px;
     }
     .btn-export {
       display: flex; align-items: center; gap: 7px;
@@ -396,36 +437,44 @@
       background: var(--bg-card); color: var(--text-secondary);
       transition: var(--transition);
     }
-    .btn-export:hover { color: var(--text-primary); background: var(--bg-card-hover); transform: translateY(-1px); }
+    .btn-export:hover {
+      color: var(--text-primary); background: var(--bg-card-hover);
+      transform: translateY(-1px);
+    }
     .btn-export:active { transform: translateY(0); }
-    .btn-export.csv:hover,  .btn-export.xlsx:hover { border-color: rgba(16,185,129,0.4); color: var(--emerald); }
-    .btn-export.pdf:hover  { border-color: rgba(239,68,68,0.4); color: var(--rose); }
+    .btn-export.csv:hover,
+    .btn-export.xlsx:hover { border-color: rgba(16,185,129,0.4); color: var(--emerald); }
+    .btn-export.pdf:hover  { border-color: rgba(225,29,72,0.4); color: var(--crimson); }
     .records-info { margin-left: auto; font-size: 12px; color: var(--text-muted); }
 
-    /* ── Toast ──────────────────────────────────────────────────────── */
-    .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+    /* ── Toast ───────────────────────────────────────────────── */
+    .toast-container {
+      position: fixed; bottom: 24px; right: 24px;
+      z-index: 1000; display: flex; flex-direction: column; gap: 8px;
+    }
     .toast {
       display: flex; align-items: center; gap: 10px;
       padding: 12px 18px; border-radius: var(--radius-md);
       font-size: 13px; font-weight: 500; color: var(--text-primary);
       background: var(--bg-card); border: 1px solid var(--border-strong);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4); max-width: 340px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5); max-width: 360px;
       animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
     }
     .toast.success { border-left: 3px solid var(--emerald); }
-    .toast.error   { border-left: 3px solid var(--rose); }
-    .toast.info    { border-left: 3px solid var(--accent); }
-    @keyframes slideIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
-    @keyframes fadeOut { from { opacity:1; } to { opacity:0; pointer-events:none; } }
+    .toast.error   { border-left: 3px solid var(--crimson); }
+    .toast.info    { border-left: 3px solid var(--indigo-light); }
+    @keyframes slideIn { from{opacity:0;transform:translateX(18px);} to{opacity:1;transform:translateX(0);} }
+    @keyframes fadeOut { from{opacity:1;} to{opacity:0;pointer-events:none;} }
 
     .hidden { display: none !important; }
 
-    /* ── Print ──────────────────────────────────────────────────────── */
+    /* ── Print ───────────────────────────────────────────────── */
     @media print {
       body { background: white; color: black; }
-      .bg-glow, .topbar-right, .control-bar, .tabs-row, .table-toolbar, .export-bar, .toast-container { display: none !important; }
+      .bg-glow, .topbar-right, .control-bar, .tabs-row,
+      .table-toolbar, .export-bar, .toast-container { display: none !important; }
       .table-section { border: 1px solid #ddd; box-shadow: none; }
-      thead th { background: #f5f5f5; color: #333; }
+      thead th { background: #f3f4f6; color: #111; }
       tbody td { color: #111; }
     }
   </style>
@@ -434,7 +483,7 @@
 
 <div class="bg-glow" aria-hidden="true"></div>
 
-<div class="app-container">
+<div class="app">
 
   <!-- ═══════════ TOPBAR ═══════════ -->
   <header class="topbar">
@@ -445,42 +494,36 @@
         <div class="brand-tag">Lead Generation &amp; Website Audit Platform</div>
       </div>
     </div>
-    <div class="topbar-right">
-      <div class="mock-toggle-wrap" id="mockToggleWrap" role="button" tabindex="0" title="Toggle Demo Mode (offline data)">
-        <span class="mock-label">Demo Mode</span>
-        <div class="toggle-sw" id="mockToggle"></div>
-      </div>
-      <div class="api-pill">
-        <div class="status-dot" id="apiDot"></div>
-        <span class="status-text" id="apiText">Checking…</span>
-      </div>
+    <div class="api-pill" role="status" aria-live="polite">
+      <div class="status-dot" id="apiDot"></div>
+      <span class="status-text" id="apiText">Checking API…</span>
     </div>
   </header>
 
-  <!-- ═══════════ CONTROL BAR ═══════════ -->
+  <!-- ═══════════ SEARCH CONTROLS ═══════════ -->
   <section class="control-bar" aria-label="Search controls">
-    <div class="control-bar-title">🔍 Discovery Controls</div>
+    <div class="control-label">🔍 Discovery Controls</div>
     <div class="control-grid">
 
       <div class="field-group">
         <label class="field-label" for="locationInput">📍 Location / City</label>
         <input class="field-input" id="locationInput" type="text"
-          placeholder="e.g. Miami, FL · Tokyo, Japan · London, UK"
-          autocomplete="off" value="Miami, FL" />
+          placeholder="e.g. Miami, FL  ·  Tokyo, Japan  ·  London, UK"
+          autocomplete="off" />
       </div>
 
       <div class="field-group">
         <label class="field-label" for="keywordInput">🏷️ Business Niche / Category</label>
         <input class="field-input" id="keywordInput" type="text"
           placeholder="e.g. Plumbers, Dentists, HVAC…"
-          autocomplete="off" value="Plumbers" />
+          autocomplete="off" />
         <div class="chips-row" id="categoryChips" role="group" aria-label="Quick-select categories">
-          <span class="chip active" data-kw="Plumbers"    role="button" tabindex="0">🔧 Plumbers</span>
-          <span class="chip"        data-kw="Electricians" role="button" tabindex="0">⚡ Electricians</span>
-          <span class="chip"        data-kw="Dentists"     role="button" tabindex="0">🦷 Dentists</span>
-          <span class="chip"        data-kw="Restaurants"  role="button" tabindex="0">🍽️ Restaurants</span>
-          <span class="chip"        data-kw="Auto Repair"  role="button" tabindex="0">🚗 Auto Repair</span>
-          <span class="chip chip-all" data-kw="__ALL__"   role="button" tabindex="0">✦ All Businesses</span>
+          <span class="chip" data-kw="Plumbers"     role="button" tabindex="0">🔧 Plumbers</span>
+          <span class="chip" data-kw="Electricians" role="button" tabindex="0">⚡ Electricians</span>
+          <span class="chip" data-kw="Dentists"     role="button" tabindex="0">🦷 Dentists</span>
+          <span class="chip" data-kw="Restaurants"  role="button" tabindex="0">🍽️ Restaurants</span>
+          <span class="chip" data-kw="Auto Repair"  role="button" tabindex="0">🚗 Auto Repair</span>
+          <span class="chip chip-all" data-kw="__ALL__" role="button" tabindex="0">✦ All Businesses</span>
         </div>
       </div>
 
@@ -495,34 +538,34 @@
 
   <!-- ═══════════ METRIC CARDS ═══════════ -->
   <section class="metrics-grid" aria-label="Summary metrics">
-    <article class="metric-card total">
+    <article class="metric-card m-total">
       <div class="metric-icon" aria-hidden="true">🏢</div>
       <div class="metric-label">Total Discovered</div>
       <div class="metric-value" id="metricTotal">—</div>
       <div class="metric-sub" id="metricTotalSub">Run a search to begin</div>
     </article>
-    <article class="metric-card high-opp">
+    <article class="metric-card m-highopp">
       <div class="metric-icon" aria-hidden="true">🎯</div>
       <div class="metric-label">High-Value Opportunities</div>
       <div class="metric-value" id="metricHighOpp">—</div>
       <div class="metric-sub">No Website · Broken</div>
     </article>
-    <article class="metric-card sub-opt">
+    <article class="metric-card m-subopt">
       <div class="metric-icon" aria-hidden="true">⚠️</div>
       <div class="metric-label">Sub-Optimal Websites</div>
       <div class="metric-value" id="metricSubOpt">—</div>
       <div class="metric-sub">Insecure · Not Mobile-Friendly</div>
     </article>
-    <article class="metric-card ai-score">
+    <article class="metric-card m-ai">
       <div class="metric-icon" aria-hidden="true">🤖</div>
       <div class="metric-label">Avg Quality Score</div>
-      <div class="metric-value" id="metricAiScore" style="font-size:18px;padding-top:7px;">Pending</div>
+      <div class="metric-value" id="metricAiScore" style="font-size:18px;padding-top:8px;">Pending</div>
       <div class="metric-badge">✦ Gemini AI</div>
-      <div class="metric-sub" style="margin-top:4px;">Score integration ready</div>
+      <div class="metric-sub" style="margin-top:5px;">Score integration ready</div>
     </article>
   </section>
 
-  <!-- ═══════════ TABLE SECTION ═══════════ -->
+  <!-- ═══════════ RESULTS TABLE ═══════════ -->
   <section class="table-section" aria-label="Lead results">
 
     <div class="table-header">
@@ -533,39 +576,44 @@
     </div>
 
     <nav class="tabs-row" role="tablist">
-      <button class="tab-btn active" id="tab-all"     data-tab="all"     role="tab" aria-selected="true"  onclick="switchTab('all')">All Leads <span class="tab-count" id="cnt-all">0</span></button>
-      <button class="tab-btn"        id="tab-highOpp" data-tab="highOpp" role="tab" aria-selected="false" onclick="switchTab('highOpp')">🎯 High Opportunity <span class="tab-count" id="cnt-highOpp">0</span></button>
-      <button class="tab-btn"        id="tab-mobile"  data-tab="mobile"  role="tab" aria-selected="false" onclick="switchTab('mobile')">📱 Mobile Issues <span class="tab-count" id="cnt-mobile">0</span></button>
-      <button class="tab-btn"        id="tab-active"  data-tab="active"  role="tab" aria-selected="false" onclick="switchTab('active')">✅ Active Sites <span class="tab-count" id="cnt-active">0</span></button>
+      <button class="tab-btn active" data-tab="all"     role="tab" aria-selected="true"  onclick="switchTab('all')">All Leads <span class="tab-count" id="cnt-all">0</span></button>
+      <button class="tab-btn"        data-tab="highOpp" role="tab" aria-selected="false" onclick="switchTab('highOpp')">🎯 High Opportunity <span class="tab-count" id="cnt-highOpp">0</span></button>
+      <button class="tab-btn"        data-tab="mobile"  role="tab" aria-selected="false" onclick="switchTab('mobile')">📱 Mobile Issues <span class="tab-count" id="cnt-mobile">0</span></button>
+      <button class="tab-btn"        data-tab="active"  role="tab" aria-selected="false" onclick="switchTab('active')">✅ Active Sites <span class="tab-count" id="cnt-active">0</span></button>
     </nav>
 
     <div class="table-toolbar">
       <input class="table-search" id="tableSearch" type="search"
-        placeholder="Search by name, address, phone, status…" aria-label="Search leads" />
+        placeholder="Search by name, address, phone, status…"
+        aria-label="Search leads" />
     </div>
 
     <div class="loading-overlay" id="loadingOverlay" aria-live="polite">
       <div class="loader-ring"></div>
       <div class="loading-text">Scraping &amp; Auditing Leads…</div>
-      <div class="loading-sub" id="loadingSub">Connecting to pipeline</div>
+      <div class="loading-sub" id="loadingSub">Connecting to Google Places API</div>
     </div>
 
     <div class="table-wrap" id="tableWrap">
       <div class="empty-state" id="emptyState">
         <div class="empty-icon">🔎</div>
         <div class="empty-title">Ready to discover leads</div>
-        <div class="empty-subtitle">Enter a location and business niche above, then click "Search &amp; Audit Leads"</div>
+        <div class="empty-subtitle">
+          Enter a target location and business niche above, then click
+          <strong>Search &amp; Audit Leads</strong>. Requires a valid
+          <code>GOOGLE_PLACES_API_KEY</code> in your <code>.env</code> file.
+        </div>
       </div>
 
       <table id="leadsTable" class="hidden" aria-label="Lead results data table">
         <thead>
           <tr>
-            <th id="th-0" class="td-index" onclick="sortTable(0)"># <span class="sort-icon"></span></th>
-            <th id="th-1" onclick="sortTable(1)">Business Name <span class="sort-icon"></span></th>
-            <th id="th-2" onclick="sortTable(2)">Phone <span class="sort-icon"></span></th>
-            <th id="th-3" onclick="sortTable(3)">Address <span class="sort-icon"></span></th>
+            <th class="td-index" onclick="sortTable(0)"># <span class="sort-icon"></span></th>
+            <th onclick="sortTable(1)">Business Name <span class="sort-icon"></span></th>
+            <th onclick="sortTable(2)">Phone <span class="sort-icon"></span></th>
+            <th onclick="sortTable(3)">Address <span class="sort-icon"></span></th>
             <th>Website</th>
-            <th id="th-5" onclick="sortTable(5)">Audit Status <span class="sort-icon"></span></th>
+            <th onclick="sortTable(5)">Audit Status <span class="sort-icon"></span></th>
             <th>Gemini AI Rating</th>
           </tr>
         </thead>
@@ -574,7 +622,7 @@
     </div>
 
     <div class="export-bar">
-      <span class="export-label">Export:</span>
+      <span class="export-label">Export</span>
       <button class="btn-export csv"  onclick="exportCSV()"  aria-label="Export CSV">📄 CSV</button>
       <button class="btn-export xlsx" onclick="exportTSV()"  aria-label="Export Excel/TSV">📊 Excel / TSV</button>
       <button class="btn-export pdf"  onclick="exportPDF()"  aria-label="Export PDF report">🖨️ PDF Report</button>
@@ -586,47 +634,29 @@
 
 <div class="toast-container" id="toastContainer" aria-live="assertive"></div>
 
-<!-- =====================================================================
-     JAVASCRIPT
-====================================================================== -->
+<!-- ============================================================
+     JAVASCRIPT — LIVE API ONLY
+============================================================ -->
 <script>
-  /* ── Constants ──────────────────────────────────────────────────────── */
   const API_BASE = 'http://127.0.0.1:8000';
   const ENDPOINT = API_BASE + '/api/run-pipeline';
 
   let allLeads      = [];
   let filteredLeads = [];
   let currentTab    = 'all';
-  let isMockMode    = false;
-  let sortColIndex  = -1;
+  let sortColIdx    = -1;
   let sortAsc       = true;
 
-  /* ── Mock Dataset ───────────────────────────────────────────────────── */
-  const MOCK_LEADS = [
-    { business_name:'Apex Plumbing Experts',      phone_number:'+1 305-555-0192', address:'123 Biscayne Blvd, Miami, FL',  website:'https://example.com',        status_flag:'ACTIVE_WEBSITE' },
-    { business_name:'Old School Pipe Repair',      phone_number:'+1 305-555-0144', address:'456 Ocean Dr, Miami, FL',       website:'http://example.com',         status_flag:'INSECURE_WEBSITE' },
-    { business_name:'404 Drain Services',          phone_number:'+1 305-555-0888', address:'789 NW 36th St, Miami, FL',     website:'https://example.com/broken', status_flag:'BROKEN_WEBSITE' },
-    { business_name:'Desktop Only Drains',         phone_number:'+1 305-555-0333', address:'101 Flagler St, Miami, FL',     website:'https://desktop-only.com',   status_flag:'NOT_MOBILE_FRIENDLY' },
-    { business_name:'Local Handyman No Site',      phone_number:'+1 305-555-0777', address:'202 Coral Way, Miami, FL',      website:null,                         status_flag:'NO_WEBSITE' },
-    { business_name:'Sunrise Electrical Co.',      phone_number:'+1 786-555-0201', address:'300 SW 8th St, Miami, FL',      website:'https://sunriseelec.com',    status_flag:'ACTIVE_WEBSITE' },
-    { business_name:'Bay Area HVAC Services',      phone_number:'+1 305-555-0456', address:'88 NE 2nd Ave, Miami, FL',      website:null,                         status_flag:'NO_WEBSITE' },
-    { business_name:'Quick Fix Auto Repair',       phone_number:'—',              address:'1020 NW 17th Ave, Miami, FL',   website:'http://quickfix.net',        status_flag:'INSECURE_WEBSITE' },
-    { business_name:'Miami Dental Center',         phone_number:'+1 305-555-0900', address:'540 Brickell Ave, Miami, FL',   website:'https://miamidental.com',    status_flag:'ACTIVE_WEBSITE' },
-    { business_name:'Broken Link Bistro',          phone_number:'+1 305-555-0612', address:'77 SW 12th St, Miami, FL',      website:'https://brokenlink.io',      status_flag:'BROKEN_WEBSITE' },
-    { business_name:'OldSite Cafe',                phone_number:'+1 305-555-0311', address:'900 NW 54th St, Miami, FL',     website:'http://oldcafe.biz',         status_flag:'NOT_MOBILE_FRIENDLY' },
-    { business_name:'No Presence Cleaners',        phone_number:'+1 786-555-0100', address:'15 Bird Rd, Miami, FL',         website:null,                         status_flag:'NO_WEBSITE' },
-  ];
-
-  /* ── Status config ──────────────────────────────────────────────────── */
+  /* ── Status badge config ─────────────────────────────────── */
   const STATUS_CFG = {
-    ACTIVE_WEBSITE:      { cls:'badge-active',   label:'Active Website' },
-    INSECURE_WEBSITE:    { cls:'badge-insecure',  label:'Insecure (HTTP)' },
-    NOT_MOBILE_FRIENDLY: { cls:'badge-mobile',    label:'Not Mobile-Friendly' },
-    BROKEN_WEBSITE:      { cls:'badge-broken',    label:'Broken Website' },
-    NO_WEBSITE:          { cls:'badge-nosite',    label:'No Website' },
+    ACTIVE_WEBSITE:      { cls: 'badge-active',   label: 'Active Website' },
+    INSECURE_WEBSITE:    { cls: 'badge-insecure',  label: 'Insecure (HTTP)' },
+    NOT_MOBILE_FRIENDLY: { cls: 'badge-mobile',    label: 'Not Mobile-Friendly' },
+    BROKEN_WEBSITE:      { cls: 'badge-broken',    label: 'Broken Website' },
+    NO_WEBSITE:          { cls: 'badge-nosite',    label: 'No Website' },
   };
 
-  /* ── Tab filter fns ─────────────────────────────────────────────────── */
+  /* ── Tab filters ─────────────────────────────────────────── */
   const TAB_FN = {
     all:     () => true,
     highOpp: l => ['NO_WEBSITE','BROKEN_WEBSITE','INSECURE_WEBSITE'].includes(l.status_flag),
@@ -634,32 +664,28 @@
     active:  l => l.status_flag === 'ACTIVE_WEBSITE',
   };
 
-  /* ── API status check ───────────────────────────────────────────────── */
+  /* ── API health check ─────────────────────────────────────── */
   async function checkApi() {
+    const dot  = document.getElementById('apiDot');
+    const text = document.getElementById('apiText');
     try {
       const r = await fetch(API_BASE + '/', { signal: AbortSignal.timeout(3000) });
-      const ok = r.ok;
-      document.getElementById('apiDot').className  = 'status-dot' + (ok ? ' online' : '');
-      document.getElementById('apiText').textContent = ok ? 'API Online' : 'API Offline';
+      if (r.ok) {
+        dot.className  = 'status-dot online';
+        text.textContent = 'API Online';
+      } else {
+        dot.className  = 'status-dot error';
+        text.textContent = 'API Error';
+      }
     } catch {
-      document.getElementById('apiDot').className  = 'status-dot';
-      document.getElementById('apiText').textContent = 'API Offline';
+      dot.className  = 'status-dot error';
+      text.textContent = 'API Offline';
     }
   }
   checkApi();
   setInterval(checkApi, 15000);
 
-  /* ── Mock toggle ────────────────────────────────────────────────────── */
-  document.getElementById('mockToggleWrap').addEventListener('click', () => {
-    isMockMode = !isMockMode;
-    document.getElementById('mockToggle').classList.toggle('on', isMockMode);
-    toast(isMockMode ? '🎭 Demo Mode ON — using offline data' : '🌐 Live Mode — connecting to local API', 'info');
-  });
-  document.getElementById('mockToggleWrap').addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); document.getElementById('mockToggleWrap').click(); }
-  });
-
-  /* ── Category chips ─────────────────────────────────────────────────── */
+  /* ── Category chips ──────────────────────────────────────── */
   document.getElementById('categoryChips').addEventListener('click', e => {
     const chip = e.target.closest('.chip');
     if (!chip) return;
@@ -672,42 +698,56 @@
     document.querySelectorAll('#categoryChips .chip').forEach(c => c.classList.remove('active'));
   });
 
-  /* ── Search ─────────────────────────────────────────────────────────── */
+  /* ── Search ──────────────────────────────────────────────── */
   document.getElementById('searchBtn').addEventListener('click', runSearch);
   ['locationInput','keywordInput'].forEach(id =>
-    document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); })
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') runSearch();
+    })
   );
 
   async function runSearch() {
     const loc = document.getElementById('locationInput').value.trim();
     const kw  = document.getElementById('keywordInput').value.trim();
+
     if (!loc) { toast('⚠️ Please enter a location', 'error'); return; }
 
     const btn = document.getElementById('searchBtn');
-    btn.classList.add('loading'); btn.disabled = true;
-    showLoading(true, isMockMode ? 'Loading demo dataset…' : 'Scraping "' + (kw || 'all businesses') + '" in ' + loc + '…');
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    showLoading(true, 'Querying Google Places for "' + (kw || 'businesses') + '" in ' + loc + '…');
     clearTable();
 
     try {
-      let leads;
-      if (isMockMode) {
-        await delay(1100);
-        leads = MOCK_LEADS;
-        toast('🎭 Demo data loaded (' + leads.length + ' businesses)', 'success');
-      } else {
-        const res = await fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ location: loc, keyword: kw || 'all businesses' }),
-          signal: AbortSignal.timeout(30000),
-        });
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          throw new Error(err.detail || 'HTTP ' + res.status);
-        }
-        const data = await res.json();
-        leads = data.leads || [];
-        toast('✅ ' + leads.length + ' lead(s) found for "' + (kw || 'all') + '" in ' + loc, 'success');
+      const res = await fetch(ENDPOINT, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ location: loc, keyword: kw || '__ALL__' }),
+        signal:  AbortSignal.timeout(45000),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || 'Server error ' + res.status);
+      }
+
+      const data  = await res.json();
+      const leads = data.leads || [];
+
+      if (data.status === 'no_results' || leads.length === 0) {
+        showLoading(false);
+        setEmpty(
+          'No businesses found',
+          'No results returned for "' + (kw || 'businesses') + '" in ' + loc + '. ' +
+          'Ensure a valid GOOGLE_PLACES_API_KEY is configured in your .env file.'
+        );
+        updateMetrics([]);
+        updateCounts([]);
+        document.getElementById('tableSubtitle').textContent =
+          '0 results — ' + (kw || 'All Businesses') + ' in ' + loc;
+        toast('⚠️ No businesses found for this search', 'info');
+        return;
       }
 
       allLeads = leads;
@@ -716,19 +756,34 @@
       updateMetrics(leads);
       updateCounts(leads);
       applyFilters();
+      toast('✅ ' + leads.length + ' lead(s) audited for "' + (kw || 'all') + '" in ' + loc, 'success');
+
     } catch (err) {
       console.error(err);
-      const offline = err.name === 'TypeError' || err.message.includes('fetch') || err.name === 'TimeoutError';
-      toast(offline ? '❌ API unreachable — enable Demo Mode for offline preview' : '❌ Error: ' + err.message, 'error');
-      setEmpty('⚠️ Could not load results', offline ? 'Enable Demo Mode or ensure server.py is running on :8000' : err.message);
+      showLoading(false);
+      const isConn = err.name === 'TypeError' || err.name === 'TimeoutError'
+                  || err.message.toLowerCase().includes('fetch');
+      setEmpty(
+        isConn ? 'Cannot reach the API server' : '⚠️ Error: ' + err.message,
+        isConn ? 'Ensure server.py is running on http://127.0.0.1:8000, then try again.' : ''
+      );
+      toast(isConn ? '❌ API server unreachable — run: python server.py' : '❌ ' + err.message, 'error');
     } finally {
-      btn.classList.remove('loading'); btn.disabled = false;
+      btn.classList.remove('loading');
+      btn.disabled = false;
       showLoading(false);
     }
   }
 
-  /* ── Metrics ────────────────────────────────────────────────────────── */
+  /* ── Metrics ─────────────────────────────────────────────── */
   function updateMetrics(leads) {
+    if (!leads.length) {
+      ['metricTotal','metricHighOpp','metricSubOpt'].forEach(id => {
+        document.getElementById(id).textContent = '—';
+      });
+      document.getElementById('metricTotalSub').textContent = 'Run a search to begin';
+      return;
+    }
     animateNum('metricTotal',   leads.length);
     animateNum('metricHighOpp', leads.filter(l => ['NO_WEBSITE','BROKEN_WEBSITE'].includes(l.status_flag)).length);
     animateNum('metricSubOpt',  leads.filter(l => ['INSECURE_WEBSITE','NOT_MOBILE_FRIENDLY'].includes(l.status_flag)).length);
@@ -737,7 +792,8 @@
 
   function animateNum(id, target) {
     const el = document.getElementById(id);
-    let cur = 0, step = Math.max(1, Math.ceil(target / 20));
+    let cur = 0;
+    const step = Math.max(1, Math.ceil(target / 20));
     const t = setInterval(() => {
       cur = Math.min(cur + step, target);
       el.textContent = cur;
@@ -745,7 +801,7 @@
     }, 35);
   }
 
-  /* ── Tab counts ─────────────────────────────────────────────────────── */
+  /* ── Tab counts ──────────────────────────────────────────── */
   function updateCounts(leads) {
     document.getElementById('cnt-all').textContent     = leads.length;
     document.getElementById('cnt-highOpp').textContent = leads.filter(TAB_FN.highOpp).length;
@@ -753,18 +809,18 @@
     document.getElementById('cnt-active').textContent  = leads.filter(TAB_FN.active).length;
   }
 
-  /* ── Tab switching ──────────────────────────────────────────────────── */
+  /* ── Tab switching ───────────────────────────────────────── */
   function switchTab(tab) {
     currentTab = tab;
     document.querySelectorAll('.tab-btn').forEach(b => {
-      const a = b.dataset.tab === tab;
-      b.classList.toggle('active', a);
-      b.setAttribute('aria-selected', a);
+      const active = b.dataset.tab === tab;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-selected', active);
     });
     applyFilters();
   }
 
-  /* ── Filters ────────────────────────────────────────────────────────── */
+  /* ── Filters ─────────────────────────────────────────────── */
   document.getElementById('tableSearch').addEventListener('input', applyFilters);
 
   function applyFilters() {
@@ -778,52 +834,58 @@
     renderTable(filteredLeads);
   }
 
-  /* ── Sort ───────────────────────────────────────────────────────────── */
+  /* ── Sort ────────────────────────────────────────────────── */
   const COL_KEYS = [null, 'business_name', 'phone_number', 'address', null, 'status_flag', null];
 
   function sortTable(idx) {
     const key = COL_KEYS[idx];
     if (!key) return;
-    if (sortColIndex === idx) sortAsc = !sortAsc;
-    else { sortColIndex = idx; sortAsc = true; }
+    if (sortColIdx === idx) sortAsc = !sortAsc;
+    else { sortColIdx = idx; sortAsc = true; }
     document.querySelectorAll('thead th').forEach((th, i) => {
       th.classList.remove('sorted-asc','sorted-desc');
       if (i === idx) th.classList.add(sortAsc ? 'sorted-asc' : 'sorted-desc');
     });
-    filteredLeads.sort((a,b) => {
-      const av = (a[key]||'').toString().toLowerCase();
-      const bv = (b[key]||'').toString().toLowerCase();
+    filteredLeads.sort((a, b) => {
+      const av = (a[key] || '').toString().toLowerCase();
+      const bv = (b[key] || '').toString().toLowerCase();
       return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
     });
     renderTable(filteredLeads, false);
   }
 
-  /* ── Render ─────────────────────────────────────────────────────────── */
+  /* ── Render ──────────────────────────────────────────────── */
   function renderTable(leads) {
     const tbl   = document.getElementById('leadsTable');
     const empty = document.getElementById('emptyState');
     if (!leads || !leads.length) {
       tbl.classList.add('hidden');
-      setEmpty('No matching leads',
+      setEmpty(
+        'No matching leads',
         currentTab !== 'all'
           ? 'Try the "All Leads" tab or clear the search filter.'
-          : 'No results match the current filters.');
+          : 'No results match the current filters.'
+      );
       document.getElementById('recordsInfo').textContent = '';
       return;
     }
     empty.classList.add('hidden');
     tbl.classList.remove('hidden');
-    document.getElementById('tableBody').innerHTML = leads.map((l, i) => buildRow(i+1, l)).join('');
-    document.getElementById('recordsInfo').textContent = 'Showing ' + leads.length + ' record(s)';
+    document.getElementById('tableBody').innerHTML =
+      leads.map((l, i) => buildRow(i + 1, l)).join('');
+    document.getElementById('recordsInfo').textContent =
+      'Showing ' + leads.length + ' record(s)';
   }
 
   function buildRow(idx, lead) {
     const flag = lead.status_flag || 'NO_WEBSITE';
-    const cfg  = STATUS_CFG[flag] || { cls:'badge-nosite', label:flag };
+    const cfg  = STATUS_CFG[flag] || { cls: 'badge-nosite', label: flag };
     const site = lead.website;
     const wsCell = site
       ? '<a href="' + esc(site) + '" target="_blank" rel="noopener noreferrer" title="' + esc(site) + '">'
-        + '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+        + '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">'
+        + '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>'
+        + '<polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
         + esc(shortUrl(site)) + '</a>'
       : '<span class="no-site">No Website</span>';
 
@@ -831,21 +893,25 @@
       + '<td class="td-index">' + idx + '</td>'
       + '<td class="td-name">'  + esc(lead.business_name || '—') + '</td>'
       + '<td class="td-phone">' + esc(lead.phone_number  || '—') + '</td>'
-      + '<td class="td-address"><span title="' + esc(lead.address||'') + '">' + esc(lead.address||'—') + '</span></td>'
+      + '<td class="td-address"><span title="' + esc(lead.address || '') + '">'
+          + esc(lead.address || '—') + '</span></td>'
       + '<td class="td-website">' + wsCell + '</td>'
       + '<td><span class="badge ' + cfg.cls + '">' + cfg.label + '</span></td>'
-      + '<td><div class="score-wrap"><span>— / 10</span><span class="ai-pending" title="Awaiting Gemini API">Gemini AI</span></div></td>'
+      + '<td><div class="score-wrap"><span>— / 10</span>'
+          + '<span class="ai-pending" title="Awaiting Gemini API integration">Gemini AI</span>'
+          + '</div></td>'
       + '</tr>';
   }
 
   function esc(s) {
-    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
   function shortUrl(u) {
     try { return new URL(u).hostname.replace('www.',''); } catch { return u; }
   }
 
-  /* ── Helpers ────────────────────────────────────────────────────────── */
+  /* ── State helpers ───────────────────────────────────────── */
   function showLoading(vis, sub) {
     const ov = document.getElementById('loadingOverlay');
     ov.classList.toggle('visible', vis);
@@ -865,14 +931,13 @@
     el.querySelector('.empty-title').textContent    = title || '';
     el.querySelector('.empty-subtitle').textContent = sub   || '';
   }
-  function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-  /* ── Export ─────────────────────────────────────────────────────────── */
+  /* ── Export ──────────────────────────────────────────────── */
   function getRows() {
     const data = filteredLeads.length ? filteredLeads : allLeads;
     const hdr  = ['#','Business Name','Phone Number','Address','Website','Audit Status','Gemini AI Rating'];
     const rows = data.map((l, i) => [
-      i+1,
+      i + 1,
       l.business_name || '',
       l.phone_number  || '',
       l.address       || '',
@@ -885,40 +950,48 @@
 
   function exportCSV() {
     const { data, hdr, rows } = getRows();
-    if (!data.length) { toast('⚠️ No data to export','error'); return; }
-    const body = [hdr,...rows].map(r => r.map(v => '"' + String(v).replace(/"/g,'""') + '"').join(',')).join('\r\n');
+    if (!data.length) { toast('⚠️ No data to export', 'error'); return; }
+    const body = [hdr, ...rows]
+      .map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(','))
+      .join('\r\n');
     dl(body, 'leads-export.csv', 'text/csv;charset=utf-8;');
-    toast('📄 CSV exported', 'success');
+    toast('📄 CSV exported successfully', 'success');
   }
 
   function exportTSV() {
     const { data, hdr, rows } = getRows();
-    if (!data.length) { toast('⚠️ No data to export','error'); return; }
-    const body = [hdr,...rows].map(r => r.map(v => String(v).replace(/\t/g,' ')).join('\t')).join('\r\n');
+    if (!data.length) { toast('⚠️ No data to export', 'error'); return; }
+    const body = [hdr, ...rows]
+      .map(r => r.map(v => String(v).replace(/\t/g, ' ')).join('\t'))
+      .join('\r\n');
     dl(body, 'leads-export.tsv', 'text/tab-separated-values;charset=utf-8;');
-    toast('📊 TSV/Excel file exported', 'success');
+    toast('📊 Excel/TSV file exported', 'success');
   }
 
   function exportPDF() {
     const { data, hdr, rows } = getRows();
-    if (!data.length) { toast('⚠️ No data to export','error'); return; }
-    const now  = new Date().toLocaleDateString('en-US', { dateStyle:'long' });
+    if (!data.length) { toast('⚠️ No data to export', 'error'); return; }
+    const now  = new Date().toLocaleDateString('en-US', { dateStyle: 'long' });
     const tHdr = hdr.map(h => '<th>' + h + '</th>').join('');
-    const tBdy = rows.map(r => '<tr>' + r.map(v => '<td>' + String(v) + '</td>').join('') + '</tr>').join('');
-    const w = window.open('','_blank');
-    w.document.write('<!DOCTYPE html><html><head><title>Maps Lead Scraper — Report</title><style>'
+    const tBdy = rows.map(r =>
+      '<tr>' + r.map(v => '<td>' + String(v) + '</td>').join('') + '</tr>'
+    ).join('');
+    const w = window.open('', '_blank');
+    w.document.write(
+      '<!DOCTYPE html><html><head><title>Maps Lead Scraper — Report</title><style>'
       + 'body{font-family:Arial,sans-serif;margin:40px;font-size:12px;color:#111}'
       + 'h1{font-size:20px;margin-bottom:4px}'
       + '.meta{color:#555;font-size:12px;margin-bottom:24px}'
       + 'table{width:100%;border-collapse:collapse}'
-      + 'th{background:#1a1a2e;color:white;padding:8px 10px;text-align:left;font-size:11px}'
+      + 'th{background:#111827;color:white;padding:8px 10px;text-align:left;font-size:11px}'
       + 'td{padding:7px 10px;border-bottom:1px solid #eee;vertical-align:top}'
       + 'tr:nth-child(even) td{background:#f8f9fb}'
       + '</style></head><body>'
       + '<h1>🗺️ Maps Lead Scraper — Lead Report</h1>'
       + '<div class="meta">Generated: ' + now + ' &nbsp;·&nbsp; ' + rows.length + ' record(s)</div>'
       + '<table><thead><tr>' + tHdr + '</tr></thead><tbody>' + tBdy + '</tbody></table>'
-      + '</body></html>');
+      + '</body></html>'
+    );
     w.document.close();
     setTimeout(() => w.print(), 400);
     toast('🖨️ PDF print dialog opened', 'success');
@@ -927,18 +1000,20 @@
   function dl(content, filename, mime) {
     const blob = new Blob(['\uFEFF' + content], { type: mime });
     const url  = URL.createObjectURL(blob);
-    const a    = Object.assign(document.createElement('a'), { href:url, download:filename });
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a); URL.revokeObjectURL(url);
+    const a    = Object.assign(document.createElement('a'), { href: url, download: filename });
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
-  /* ── Toast ──────────────────────────────────────────────────────────── */
+  /* ── Toast ───────────────────────────────────────────────── */
   function toast(msg, type = 'info') {
     const c = document.getElementById('toastContainer');
     const t = document.createElement('div');
-    t.className = 'toast ' + type;
+    t.className   = 'toast ' + type;
     t.textContent = msg;
-    t.setAttribute('role','alert');
+    t.setAttribute('role', 'alert');
     c.appendChild(t);
     setTimeout(() => t.remove(), 3200);
   }
